@@ -102,24 +102,12 @@ public class SimuladorImpresora extends javax.swing.JFrame {
             NomDoc.setText(nombre.peek());
            
             try {
-                Thread.sleep(paginas.peek()*TIEMPO_IMPRESION_PAGINA*1000);
+                Imprimir();
             } catch (InterruptedException ex) {
                 Logger.getLogger(SimuladorImpresora.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-              paginas.poll();
-              nombre.poll();
         }
-       /* while(!nombre.isEmpty()){
-            nombArch=nombre.peek();
-            NomDoc.setText(nombArch);
-            try {
-                Thread.sleep(numPag*TIEMPO_IMPRESION_PAGINA*100);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SimuladorImpresora.class.getName()).log(Level.SEVERE, null, ex);
-            }
-             nombre.poll();
-        }*/
+       
 
         
 
@@ -130,14 +118,14 @@ public class SimuladorImpresora extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnIniciarMouseClicked
     
     
-  /*  public void Imprimir() throws InterruptedException{
-        
+ public void Imprimir() throws InterruptedException{
+        int numPag= paginas.peek();
         Thread.sleep(numPag*TIEMPO_IMPRESION_PAGINA*1000);
         nombre.poll();
         paginas.poll();
     }
    
-    public void Mostrar(){
+   /* public void Mostrar(){
        String nombArch=null;
       
        while(!paginas.isEmpty()){
