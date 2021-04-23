@@ -50,7 +50,7 @@ public class SimuladorImpresora extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Nombre del archivo: ");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(47, 31, -1, 25));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, 25));
 
         BtnAgregarArchivo.setText("Agregar Archivo");
         BtnAgregarArchivo.addActionListener(new java.awt.event.ActionListener() {
@@ -71,29 +71,25 @@ public class SimuladorImpresora extends javax.swing.JFrame {
                 BtnIniciarActionPerformed(evt);
             }
         });
-        jPanel1.add(BtnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, -1, -1));
+        jPanel1.add(BtnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/gigimpresora.gif"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 120, 90));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, -1, 90));
+        jPanel1.add(PRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 140, 30));
 
-        PRest.setText("jLabel3");
-        jPanel1.add(PRest, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, -1, -1));
-
-        jLabel3.setText("Paginas restantes");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 100, 20));
-
-        NomDo.setText("jLabel3");
-        jPanel1.add(NomDo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+        jLabel3.setText("Paginas restantes:");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 110, 20));
+        jPanel1.add(NomDo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, 130, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
         );
 
         pack();
@@ -109,83 +105,21 @@ public class SimuladorImpresora extends javax.swing.JFrame {
     private void BtnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnIniciarActionPerformed
 
         
-        try{
-            
-            CsvReader leerDoc=new CsvReader("CaracteristicasDocumentos.csv");
-            leerDoc.readHeaders();
-            
-            while (leerDoc.readRecord()){
-                 Tnombre=leerDoc.get(0);
-                 Tpaginas=Integer.parseInt(leerDoc.get(1));
-                 
-                 nombre.add(Tnombre);
-                 paginas.add(Tpaginas);
-            }
-            
-            leerDoc.close(); //cerrar el archivo 
-            
-            while(!nombre.isEmpty()&&!paginas.isEmpty()){
-                 
-                int numPag=paginas.peek();
-            String nombArch=nombre.peek();
-            
-            NomDo.setText("hola");
-            System.out.println("Nombre del archivo: " +nombre.peek());
-           Thread.sleep(1*TIEMPO_IMPRESION_PAGINA*500);
-            
-            for(int i=numPag; i>0;i--){
-                System.out.println("Faltan "+numPag+" paginas");
-                NomDo.setText(nombArch);
-                numPag--;
-                Thread.sleep(1*TIEMPO_IMPRESION_PAGINA*1000);
-            }
-           
-        nombre.poll();
-        paginas.poll();
-               
-                
-            }
-            NomDo.setText(Integer.toString(Tpaginas));
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }catch(IOException e){
-            e.printStackTrace();
+        try {
+            Importar();
         } catch (InterruptedException ex) {
             Logger.getLogger(SimuladorImpresora.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        NomDo.setText(Integer.toString(Tpaginas));
+       
 
     }//GEN-LAST:event_BtnIniciarActionPerformed
 
     private void BtnIniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnIniciarMouseClicked
-        NomDo.setText(Integer.toString(Tpaginas));
+      
     }//GEN-LAST:event_BtnIniciarMouseClicked
     
     
-    public static void Exportar() throws IOException{
-        
-        String SalidaArchivo= "CaracteristicasDocumentos.csv";
-        
-        
-        
-        try{
-            CsvWriter salidaCSV= new CsvWriter (new FileWriter (SalidaArchivo,true),',');
-            
-            
-            
-            salidaCSV.endRecord();//Deja de ecribir en el archivo
-            
-            
-            
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        
-        
-        
-    }
-    
+
     
     public void Importar() throws InterruptedException{
         
@@ -207,11 +141,18 @@ public class SimuladorImpresora extends javax.swing.JFrame {
             while(!nombre.isEmpty()&&!paginas.isEmpty()){
                 int numPag=paginas.peek();
             String nombArch=nombre.peek();
-            NomDo.setText(nombre.peek());
-            Thread.sleep(numPag*TIEMPO_IMPRESION_PAGINA*1000);
+            System.out.println("Nombre del archivo: " +nombre.peek());
+           
+            
+            for(int i=numPag; i>0;i--){
+                System.out.println("Faltan "+numPag+" paginas");
+                NomDo.setText(nombArch);
+                numPag--;
+                Thread.sleep(1*TIEMPO_IMPRESION_PAGINA*1000);
+            }
         nombre.poll();
         paginas.poll();
-                System.out.println(nombre.peek());
+              
             }
             
         }catch(FileNotFoundException e){
@@ -223,13 +164,7 @@ public class SimuladorImpresora extends javax.swing.JFrame {
     }
     
     
- public void Imprimir() throws InterruptedException{
-        int numPag= paginas.peek();
-        Thread.sleep(numPag*TIEMPO_IMPRESION_PAGINA*1000);
-        nombre.poll();
-        paginas.poll();
-    }
-   
+
  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
